@@ -3,29 +3,31 @@ jobs:
   build:
     docker:
       - image: cimg/base:current
+    parallelism: 2
     resource_class: stevendumont/m1
     steps:
       - run: echo "Hi I'm on a Container Runner from build !"
-  test:
+  scheduled:
     docker:
       - image: cimg/base:current
     resource_class: stevendumont/m1
     steps:
-      - run: echo "Hi I'm on a Container Runner from test !"
+      - run: echo "Hi I'm on a Container Runner from scheduled !"
 workflows:
-  version: 2
   nightly:
     triggers:
       - schedule:
-          cron: "* * * * *"
+          cron: "0,30 8-19 * * *"
           filters:
             branches:
               only:
                 - circleci-*
     jobs:
-      - test
+      - scheduled
       - build
   build-workflow:
     jobs:
       - build
-      - test
+      - scheduled
+
+# VS Code Extension Version: 1.4.0
