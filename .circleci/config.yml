@@ -22,7 +22,8 @@ workflows:
             branches:
               only:
                 - circleci-*
+    jobs:
+      - test
   build-workflow:
     jobs:
       - build
-      - test
