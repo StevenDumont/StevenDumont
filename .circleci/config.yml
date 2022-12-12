@@ -5,8 +5,24 @@ jobs:
       - image: cimg/base:current
     resource_class: stevendumont/m1
     steps:
-      - run: echo "Hi I'm on a Container Runner!"
+      - run: echo "Hi I'm on a Container Runner from build !"
+  test:
+    docker:
+      - image: cimg/base:current
+    resource_class: stevendumont/m1
+    steps:
+      - run: echo "Hi I'm on a Container Runner from test !"
 workflows:
+  version: 2
+  nightly:
+    triggers:
+      - schedule:
+          cron: "20 0 * * *"
+          filters:
+            branches:
+              only:
+                - circleci-*
   build-workflow:
     jobs:
       - build
+      - test
